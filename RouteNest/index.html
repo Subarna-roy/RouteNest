@@ -1,0 +1,604 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>RouteNest | Intelligent Travel Planner</title>
+    <style>
+        :root {
+            --navy: #173252;
+            --blue: #356ae6;
+            --bg: #f4f7fc;
+            --muted: #69778c;
+            --line: #e1e7f0
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            font-family: Segoe UI, Arial, sans-serif;
+            background: var(--bg);
+            color: #243247
+        }
+
+        header {
+            background: linear-gradient(120deg, #142b49, #2b5a91);
+            color: white;
+            padding: 22px max(20px, calc((100% - 1150px)/2));
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap
+        }
+
+        .brand {
+            display: flex;
+            gap: 12px;
+            align-items: center
+        }
+
+        .logo {
+            background: white;
+            color: var(--blue);
+            padding: 12px;
+            border-radius: 13px;
+            font-size: 22px
+        }
+
+        .brand h1 {
+            margin: 0;
+            font-size: 22px
+        }
+
+        .brand p {
+            margin: 4px 0;
+            color: #d8e5ff;
+            font-size: 13px
+        }
+
+        .tag {
+            border: 1px solid #ffffff55;
+            border-radius: 30px;
+            padding: 8px 12px;
+            font-size: 12px
+        }
+
+        main {
+            max-width: 1150px;
+            margin: auto;
+            padding: 24px 20px
+        }
+
+        .hero {
+            background: linear-gradient(110deg, #dce9ff, #f5f8ff);
+            border-radius: 22px;
+            padding: 28px;
+            display: flex;
+            justify-content: space-between;
+            gap: 18px;
+            align-items: center
+        }
+
+        .eyebrow {
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            color: var(--blue)
+        }
+
+        .hero h2 {
+            font-size: clamp(28px, 4vw, 42px);
+            color: var(--navy);
+            margin: 10px 0
+        }
+
+        .hero p {
+            line-height: 1.6;
+            color: #586981;
+            max-width: 650px
+        }
+
+        .art {
+            font-size: 85px
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 235px 1fr;
+            gap: 20px;
+            margin-top: 22px
+        }
+
+        .sidebar,
+        .panel {
+            background: white;
+            border: 1px solid var(--line);
+            border-radius: 17px;
+            box-shadow: 0 10px 25px #203a5c0b
+        }
+
+        .sidebar {
+            padding: 13px;
+            height: max-content
+        }
+
+        .sidetitle {
+            font-size: 11px;
+            color: #8996a8;
+            font-weight: 800;
+            padding: 10px
+        }
+
+        .nav {
+            width: 100%;
+            text-align: left;
+            padding: 12px;
+            border: 0;
+            border-radius: 10px;
+            background: white;
+            color: #526176;
+            font-weight: 650;
+            cursor: pointer;
+            margin: 2px 0
+        }
+
+        .nav.active,
+        .nav:hover {
+            background: #eaf1ff;
+            color: var(--blue)
+        }
+
+        .note {
+            background: #f7f9fc;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 12px;
+            line-height: 1.5;
+            color: #738095;
+            margin: 14px 4px
+        }
+
+        .panel {
+            padding: 22px;
+            margin-bottom: 18px
+        }
+
+        .panel h3 {
+            margin: 0;
+            color: var(--navy);
+            font-size: 20px
+        }
+
+        .sub {
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.5;
+            margin: 7px 0 18px
+        }
+
+        .pill {
+            float: right;
+            background: #edf3ff;
+            color: var(--blue);
+            font-size: 10px;
+            font-weight: 800;
+            padding: 7px 9px;
+            border-radius: 30px
+        }
+
+        .formrow {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 13px
+        }
+
+        .field label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 7px;
+            color: #526176
+        }
+
+        .field input,
+        .field select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #dce3ee;
+            border-radius: 9px;
+            background: white;
+            font: inherit
+        }
+
+        .btn {
+            border: 0;
+            border-radius: 9px;
+            padding: 12px 16px;
+            font-weight: 750;
+            cursor: pointer;
+            margin: 14px 8px 0 0
+        }
+
+        .primary {
+            background: var(--blue);
+            color: white
+        }
+
+        .secondary {
+            background: #eff3fa;
+            color: #44536a
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+            margin-top: 12px
+        }
+
+        .card {
+            border: 1px solid var(--line);
+            border-radius: 13px;
+            overflow: hidden
+        }
+
+        .visual {
+            height: 80px;
+            background: linear-gradient(120deg, #e2edff, #f7f9ff);
+            display: grid;
+            place-items: center;
+            font-size: 36px
+        }
+
+        .cardbody {
+            padding: 12px
+        }
+
+        .card h4 {
+            margin: 0 0 5px;
+            color: var(--navy);
+            font-size: 14px
+        }
+
+        .muted {
+            font-size: 12px;
+            color: #8490a1
+        }
+
+        .meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            margin-top: 10px
+        }
+
+        .rating {
+            color: #a9740b;
+            font-weight: 800
+        }
+
+        .cost {
+            color: #138267;
+            font-weight: 800
+        }
+
+        .result {
+            margin-top: 17px;
+            background: #f5f8ff;
+            border: 1px solid #dfe8fb;
+            border-radius: 12px;
+            padding: 16px
+        }
+
+        .result h4 {
+            margin: 0 0 12px;
+            color: var(--navy)
+        }
+
+        .route {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin: 12px 0
+        }
+
+        .route span {
+            background: white;
+            border: 1px solid #dce5f5;
+            padding: 9px 12px;
+            border-radius: 9px;
+            font-weight: 700;
+            font-size: 13px
+        }
+
+        .howgrid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 11px
+        }
+
+        .how {
+            border: 1px solid var(--line);
+            padding: 13px;
+            border-radius: 11px
+        }
+
+        .how strong {
+            display: block;
+            color: var(--navy);
+            font-size: 13px;
+            margin-bottom: 5px
+        }
+
+        .how p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.5
+        }
+
+        .hidden {
+            display: none !important
+        }
+
+        .footer {
+            text-align: center;
+            color: #8a95a5;
+            font-size: 12px;
+            padding: 18px
+        }
+
+        .small {
+            font-size: 11px;
+            color: #8792a4;
+            line-height: 1.5
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #173252;
+            color: white;
+            padding: 12px 16px;
+            border-radius: 10px
+        }
+
+        .empty {
+            color: #738095;
+            padding: 18px;
+            border: 1px dashed var(--line);
+            border-radius: 10px;
+            text-align: center
+        }
+
+        @media(max-width:800px) {
+            .layout {
+                grid-template-columns: 1fr
+            }
+
+            .sidebar {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr)
+            }
+
+            .sidetitle,
+            .note {
+                grid-column: 1/-1
+            }
+
+            .art {
+                display: none
+            }
+
+            .cards {
+                grid-template-columns: repeat(2, 1fr)
+            }
+        }
+
+        @media(max-width:540px) {
+
+            .formrow,
+            .cards,
+            .howgrid {
+                grid-template-columns: 1fr
+            }
+
+            .sidebar {
+                grid-template-columns: 1fr
+            }
+
+            .panel {
+                padding: 16px
+            }
+
+            .tag {
+                display: none
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="brand">
+            <div class="logo">✈</div>
+            <div>
+                <h1>RouteNest</h1>
+                <p>Intelligent Travel Route & Itinerary Planner</p>
+            </div>
+        </div>
+    </header>
+    <main>
+        <section class="hero">
+            <div>
+                <div class="eyebrow">YOUR NEXT TRIP, MADE SIMPLER</div>
+                <h2>Plan smarter. Explore more.</h2>
+                <p>Find places to visit, compare travel routes, and create a trip plan that fits your budget and
+                    available time — all in one place.</p>
+            </div>
+            <div class="art">🧭 🏞️</div>
+        </section>
+        <div class="layout">
+            <aside class="sidebar">
+                <div class="sidetitle">PLAN YOUR JOURNEY</div>
+                <button class="nav active" data-view="discover">🔎 &nbsp; Discover places</button><button class="nav"
+                    data-view="route">🗺️ &nbsp; Find a route</button><button class="nav" data-view="budget">💰 &nbsp;
+                    Plan by budget</button><button class="nav" data-view="time">⏰ &nbsp; Plan by time</button><button
+                    class="nav" data-view="trip">🗓️ &nbsp; Build my trip</button><button class="nav"
+                    data-view="about">💡 &nbsp; How it works</button>
+                <div class="note">This demo uses sample destination and distance data. Costs are estimates for project
+                    demonstration, not live travel prices.</div>
+            </aside>
+            <section>
+                <div class="view" id="discover">
+                    <div class="panel"><span class="pill">DESTINATION SEARCH</span>
+                        <h3>Find your next favourite place</h3>
+                        <p class="sub">Search by attraction or city, or browse top-rated places.</p>
+                        <div class="formrow">
+                            <div class="field"><label>Place or city</label><input id="search"
+                                    placeholder="e.g. Golden Temple"></div>
+                            <div class="field"><label>Filter by city</label><select id="cityFilter">
+                                    <option value="">All cities</option>
+                                </select></div>
+                        </div><button class="btn primary" id="searchBtn">Find places</button><button
+                            class="btn secondary" id="topBtn">Show top-rated</button>
+                    </div>
+                    <div class="panel">
+                        <h3 id="listTitle">Popular places</h3>
+                        <div id="placeCards" class="cards"></div>
+                    </div>
+                </div>
+                <div class="view hidden" id="route">
+                    <div class="panel"><span class="pill">ROUTE FINDER</span>
+                        <h3>Find the best route</h3>
+                        <p class="sub">Choose your starting city and destination. We'll compare sample route distances.
+                        </p>
+                        <div class="formrow">
+                            <div class="field"><label>Starting city</label><select id="from"></select></div>
+                            <div class="field"><label>Destination city</label><select id="to"></select></div>
+                        </div><button class="btn primary" id="routeBtn">Find shortest route</button>
+                        <div id="routeResult"></div>
+                    </div>
+                </div>
+                <div class="view hidden" id="budget">
+                    <div class="panel"><span class="pill">BUDGET PLANNER</span>
+                        <h3>Make the most of your budget</h3>
+                        <p class="sub">Find a combination of attractions with good ratings without exceeding your
+                            budget.</p>
+                        <div class="formrow">
+                            <div class="field"><label>Total attraction budget (₹)</label><input id="budgetAmount"
+                                    type="number" value="3000" min="1"></div>
+                            <div class="field"><label>Preferred city (optional)</label><select id="budgetCity">
+                                    <option value="">Any city</option>
+                                </select></div>
+                        </div><button class="btn primary" id="budgetBtn">Find places for my budget</button>
+                        <div id="budgetResult"></div>
+                    </div>
+                </div>
+                <div class="view hidden" id="time">
+                    <div class="panel"><span class="pill">DAY PLANNER</span>
+                        <h3>Plan a day that fits your schedule</h3>
+                        <p class="sub">Choose how many hours you have for sightseeing.</p>
+                        <div class="formrow">
+                            <div class="field"><label>Available sightseeing time (hours)</label><input id="hours"
+                                    type="number" value="8" min="1" max="24"></div>
+                            <div class="field"><label>Preferred city (optional)</label><select id="timeCity">
+                                    <option value="">Any city</option>
+                                </select></div>
+                        </div><button class="btn primary" id="timeBtn">Build my day plan</button>
+                        <div id="timeResult"></div>
+                    </div>
+                </div>
+                <div class="view hidden" id="trip">
+                    <div class="panel"><span class="pill">TRIP BUILDER</span>
+                        <h3>Build your trip</h3>
+                        <p class="sub">Set the number of attractions and budget to explore possible combinations.</p>
+                        <div class="formrow">
+                            <div class="field"><label>Number of places</label><select id="count">
+                                    <option>2</option>
+                                    <option selected>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                </select></div>
+                            <div class="field"><label>Maximum total budget (₹)</label><input id="tripBudget"
+                                    type="number" value="2500" min="1"></div>
+                        </div><button class="btn primary" id="tripBtn">Create trip ideas</button>
+                        <div id="tripResult"></div>
+                    </div>
+                </div>
+                <div class="view hidden" id="about">
+                    <div class="panel"><span class="pill">PROJECT OVERVIEW</span>
+                        <h3>A simple travel experience, powered by algorithms</h3>
+                        <p class="sub">Travellers use simple choices. Algorithms work behind the scenes to compare
+                            options and help make a plan.</p>
+                        <div class="howgrid">
+                            <div class="how"><strong>🔎 Find a place</strong>
+                                <p>Searching algorithms look through attractions and find a matching place.</p>
+                            </div>
+                            <div class="how"><strong>⭐ Rank attractions</strong>
+                                <p>Sorting algorithms put highly rated attractions first.</p>
+                            </div>
+                            <div class="how"><strong>🗺️ Shortest route</strong>
+                                <p>Dijkstra's algorithm compares city routes and finds the smallest total distance.</p>
+                            </div>
+                            <div class="how"><strong>💰 Budget planning</strong>
+                                <p>Dynamic programming (0/1 Knapsack) selects a combination without exceeding the
+                                    budget.</p>
+                            </div>
+                            <div class="how"><strong>⏰ Time planning</strong>
+                                <p>A greedy strategy chooses shorter visits first to fit more attractions into your
+                                    available time.</p>
+                            </div>
+                            <div class="how"><strong>🗓️ Trip ideas</strong>
+                                <p>Backtracking explores possible combinations that meet the budget and place-count
+                                    limits.</p>
+                            </div>
+                            <div class="how"><strong>🌐 Explore cities</strong>
+                                <p>City routes are represented as a graph, allowing graph traversal algorithms to
+                                    explore connections.</p>
+                            </div>
+                            <div class="how"><strong>📊 Algorithm analysis</strong>
+                                <p>The project demonstrates how different approaches solve practical problems and how
+                                    their performance can be analysed.</p>
+                            </div>
+                        </div>
+                        <p class="small">Academic demo note: this is a browser-based frontend using sample data. It does
+                            not use live maps, traffic, bookings, or real-time prices. It is a visual demonstration of
+                            the project concept.</p>
+                    </div>
+                </div>
+                <div class="footer">RouteNest · Intelligent Travel Route & Itinerary Planner · DAA Mini Project</div>
+            </section>
+        </div>
+    </main>
+    <div id="toast" class="toast hidden"></div>
+    <script>
+        const places = [
+            { name: "Rock Garden", city: "Chandigarh", cost: 500, rating: 4.5, time: 2, e: "🪨" }, { name: "Sukhna Lake", city: "Chandigarh", cost: 300, rating: 4.6, time: 2, e: "🚣" }, { name: "Golden Temple", city: "Amritsar", cost: 800, rating: 4.9, time: 4, e: "🛕" }, { name: "Jallianwala Bagh", city: "Amritsar", cost: 400, rating: 4.7, time: 2, e: "🌳" }, { name: "India Gate", city: "Delhi", cost: 700, rating: 4.8, time: 2, e: "🏛️" }, { name: "Qutub Minar", city: "Delhi", cost: 600, rating: 4.7, time: 3, e: "🗼" }, { name: "Lotus Temple", city: "Delhi", cost: 500, rating: 4.6, time: 2, e: "🪷" }, { name: "Taj Mahal", city: "Agra", cost: 1200, rating: 4.9, time: 4, e: "🏰" }, { name: "Agra Fort", city: "Agra", cost: 700, rating: 4.7, time: 3, e: "🏯" }, { name: "Nahargarh Fort", city: "Jaipur", cost: 900, rating: 4.6, time: 3, e: "🌄" }, { name: "Hawa Mahal", city: "Jaipur", cost: 600, rating: 4.7, time: 2, e: "🕌" }, { name: "City Palace", city: "Jaipur", cost: 1000, rating: 4.8, time: 4, e: "👑" }];
+        const routes = [["Chandigarh", "Delhi", 245], ["Chandigarh", "Amritsar", 225], ["Chandigarh", "Jaipur", 500], ["Delhi", "Agra", 230], ["Delhi", "Jaipur", 280], ["Amritsar", "Delhi", 450], ["Jaipur", "Agra", 240], ["Jaipur", "Delhi", 280], ["Agra", "Delhi", 230], ["Agra", "Jaipur", 240]];
+        const cities = [...new Set(routes.flatMap(r => [r[0], r[1]]))].sort(), $ = id => document.getElementById(id);
+        function fill(id, any = false) { let el = $(id); if (!any) el.innerHTML = ""; cities.forEach(c => { let o = document.createElement("option"); o.value = c; o.textContent = c; el.appendChild(o) }) }
+        ["from", "to"].forEach(id => fill(id));["cityFilter", "budgetCity", "timeCity"].forEach(id => fill(id, true)); $("from").value = "Chandigarh"; $("to").value = "Agra";
+        function cards(list) { return list.length ? list.map(p => `<article class="card"><div class="visual">${p.e}</div><div class="cardbody"><h4>${p.name}</h4><div class="muted">📍 ${p.city}</div><div class="meta"><span class="rating">★ ${p.rating}/5</span><span class="cost">₹${p.cost}</span></div><div class="meta"><span>⏱ ${p.time} hours</span><span class="muted">Estimate</span></div></div></article>`).join("") : '<div class="empty" style="grid-column:1/-1">No places matched. Try another search or city.</div>' }
+        function render(list, title) { $("listTitle").textContent = title; $("placeCards").innerHTML = cards(list) }
+        function discover() { let q = $("search").value.trim().toLowerCase(), city = $("cityFilter").value; render(places.filter(p => (!q || p.name.toLowerCase().includes(q) || p.city.toLowerCase().includes(q)) && (!city || p.city === city)), "Places for you") }
+        render(places.slice(0, 6), "Popular places"); $("searchBtn").onclick = discover; $("search").onkeydown = e => { if (e.key === "Enter") discover() }; $("cityFilter").onchange = discover; $("topBtn").onclick = () => render([...places].sort((a, b) => b.rating - a.rating).slice(0, 6), "Top-rated attractions");
+        document.querySelectorAll(".nav").forEach(b => b.onclick = () => { document.querySelectorAll(".nav").forEach(x => x.classList.toggle("active", x === b)); document.querySelectorAll(".view").forEach(v => v.classList.add("hidden")); $(b.dataset.view).classList.remove("hidden") });
+        function shortest(s, t) { let g = {}; routes.forEach(([a, b, d]) => { (g[a] ??= []).push([b, d]); (g[b] ??= []).push([a, d]) }); let dist = Object.fromEntries(cities.map(c => [c, Infinity])), prev = {}, pending = new Set(cities); dist[s] = 0; while (pending.size) { let u = null; for (let c of pending) if (u === null || dist[c] < dist[u]) u = c; if (dist[u] === Infinity) break; pending.delete(u); if (u === t) break; (g[u] || []).forEach(([v, w]) => { if (dist[u] + w < dist[v]) { dist[v] = dist[u] + w; prev[v] = u } }) } if (!isFinite(dist[t])) return null; let path = [], c = t; while (c) { path.unshift(c); if (c === s) break; c = prev[c] } return { path, distance: dist[t] } }
+        $("routeBtn").onclick = () => { let s = $("from").value, t = $("to").value; if (s === t) { $("routeResult").innerHTML = '<div class="result">Choose two different cities to compare routes.</div>'; return } let r = shortest(s, t); $("routeResult").innerHTML = r ? `<div class="result"><h4>Your shortest route</h4><div class="route">${r.path.map((c, i) => `${i ? '<b>→</b>' : ''}<span>${c}</span>`).join("")}</div><p>📏 Approximate distance: <strong>${r.distance} km</strong></p><p class="small">Calculated from the sample route distances.</p></div>` : '<div class="result">No route found in the sample network.</div>' };
+        function knapsack(list, budget) { let n = list.length, dp = Array.from({ length: n + 1 }, () => Array(budget + 1).fill(0)); for (let i = 1; i <= n; i++) { let c = list[i - 1].cost, v = Math.round(list[i - 1].rating * 10); for (let b = 0; b <= budget; b++) { dp[i][b] = dp[i - 1][b]; if (c <= b) dp[i][b] = Math.max(dp[i][b], v + dp[i - 1][b - c]) } } let out = [], b = budget; for (let i = n; i > 0; i--)if (dp[i][b] !== dp[i - 1][b]) { out.push(list[i - 1]); b -= list[i - 1].cost } return out.reverse() }
+        $("budgetBtn").onclick = () => { let b = Number($("budgetAmount").value), city = $("budgetCity").value; if (!Number.isFinite(b) || b <= 0) { alert("Enter a budget above ₹0."); return } let eligible = places.filter(p => !city || p.city === city), cap = Math.min(Math.floor(b), eligible.reduce((total, p) => total + p.cost, 0)), chosen = knapsack(eligible, cap), sum = chosen.reduce((a, p) => a + p.cost, 0); $("budgetResult").innerHTML = chosen.length ? `<div class="result"><h4>Suggestions within ₹${b.toLocaleString("en-IN")}</h4><div class="cards">${cards(chosen)}</div><p>Estimated total: <strong>₹${sum.toLocaleString("en-IN")}</strong> · Remaining: ₹${(b - sum).toLocaleString("en-IN")}</p></div>` : '<div class="result">No attractions fit. Try increasing the budget.</div>' };
+        $("timeBtn").onclick = () => { let h = Number($("hours").value), city = $("timeCity").value; if (!Number.isFinite(h) || h < 1) { alert("Enter at least 1 hour."); return } let list = places.filter(p => !city || p.city === city).sort((a, b) => a.time - b.time), out = [], used = 0; for (let p of list) if (used + p.time <= h) { out.push(p); used += p.time } $("timeResult").innerHTML = out.length ? `<div class="result"><h4>Your suggested day plan</h4><div class="cards">${cards(out)}</div><p>Planned time: <strong>${used} of ${h} hours</strong></p><p class="small">This demo prioritizes shorter visits so more attractions can fit into your time.</p></div>` : '<div class="result">No visits fit that time. Try a longer duration.</div>' };
+        $("tripBtn").onclick = () => { let max = Number($("count").value), budget = Number($("tripBudget").value), out = []; if (budget <= 0) { alert("Enter a budget above ₹0."); return } function bt(start, chosen, cost) { if (out.length >= 5) return; if (chosen.length === max) { out.push({ p: [...chosen], cost }); return } for (let i = start; i < places.length; i++) { if (cost + places[i].cost <= budget) { chosen.push(places[i]); bt(i + 1, chosen, cost + places[i].cost); chosen.pop() } if (out.length >= 5) return } } bt(0, [], 0); $("tripResult").innerHTML = out.length ? `<div class="result"><h4>Trip ideas within ₹${budget.toLocaleString("en-IN")}</h4>${out.map((r, i) => `<div class="how" style="margin:10px 0"><strong>Plan ${i + 1} · Estimated ₹${r.cost.toLocaleString("en-IN")}</strong><p>${r.p.map(p => p.name + " (" + p.city + ")").join(" → ")}</p></div>`).join("")}</div>` : '<div class="result">No combinations fit. Increase your budget or choose fewer places.</div>' };
+    </script>
+</body>
+
+</html>

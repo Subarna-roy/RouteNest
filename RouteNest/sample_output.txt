@@ -1,0 +1,32 @@
+SAMPLE OUTPUT
+
+================ SMART TRAVEL PLANNER ================
+
+1. Search a destination
+2. Sort destinations by rating
+3. Find shortest route
+4. Explore cities using BFS
+5. Explore cities using DFS
+6. Best attractions within budget (0/1 Knapsack)
+7. Select attractions using Greedy method
+8. Generate possible itineraries (Backtracking)
+9. Show DAA concepts and complexities
+0. Exit
+
+Example:
+
+Enter your choice: 3
+Enter source city: Chandigarh
+Enter destination city: Agra
+
+Shortest route:
+Chandigarh -> Delhi -> Agra
+Total distance: 475 km
+
+Example:
+
+Enter your choice: 6
+Enter travel budget: ₹3000
+
+Best attractions within ₹3000:
+...
